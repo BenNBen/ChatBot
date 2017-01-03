@@ -8,3 +8,7 @@ def getMessage(line):
 	separate = line.split(":", 2)
 	message = separate[2]
 	return message
+def getTarget(line):
+        separate = line.split(":",2)
+        target = separate[2].split("@",2)[1]
+        return target
