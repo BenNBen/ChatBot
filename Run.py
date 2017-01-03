@@ -2,6 +2,7 @@ import string
 from Read import getUser, getMessage, getTarget
 from Socket import openSocket, sendMessage
 from Initialize import joinRoom
+from TicTacToe import startGame
 
 s = openSocket()
 joinRoom(s)
@@ -13,7 +14,7 @@ while True:
 		readbuffer = temp.pop()
 		
 		for line in temp:
-			print(line)
+                        print(line)
 			if "PING" in line:
 				s.send(line.replace("PING", "PONG"))
 				break
@@ -23,12 +24,9 @@ while True:
                         if ('@'in message):
                                         target = getTarget(line)
                                         print "target is " + target
-                        if("tic tac toe" in message):
-                                list = ['1','2','3','4','5','6','7','8','9']
-                                for i in range (9):
-                                                sendMessage(s,list[i])
-                                                if i == 9:
-                                                                break
+                        if("!tictactoe" in message):
+                                        startGame(s,user)
+                                        break
 
                         if ("megabot1195" in message) or ("Megabot1195" in message):
                                 sendMessage(s, "Now that's a name I've not heard in a long time. A long time.")
