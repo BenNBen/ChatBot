@@ -30,6 +30,8 @@ def startGame(s,user): #s is the openSocket, user is the player calling for the 
                # if target == getUser(line):
                 message = getMessage(line)
                 if('y' in message) or ('Y' in message):
+                    userChar = ' '
+                    targetChar = ' '
                     gameIsPlaying = True
                     begin = firstMove()
                     sendMessage(s,user+", choose a character to use:")
@@ -39,8 +41,10 @@ def startGame(s,user): #s is the openSocket, user is the player calling for the 
                     if target == getUser(line) and userChar != getMessage(line):
                         targetChar = getMessage(line)
                     sendMessage(s, user+" chose "+userChar+", while "+target+" chose "+targetChar)
+                    if userChar != ' ' and targetChar != ' ':
+                        gameIsPlaying == True
 
-                    while gameIsPlaying:
+                    while gameIsPlaying == True:
                         game = ['#'] *10
                         drawGame(s,game)
                         move = ' '
@@ -76,6 +80,7 @@ def startGame(s,user): #s is the openSocket, user is the player calling for the 
                                     begin=='1'
     if(gameIsPlaying == False):
         testLoop = False
+        return True
 
 def drawGame(s, game):
     #writes out the game to the chat
@@ -92,7 +97,7 @@ def firstMove():
         return '2'
 
 def checkMove(move,game):
-    if (move in '1 2 3 4 5 6 7 8 9'.split()) and (game[move]== ' '):
+    if (move in '1 2 3 4 5 6 7 8 9'.split()) and (game[move]== '#'):
         return True
 
 def checkWinner(game, letter):
@@ -108,6 +113,6 @@ def checkWinner(game, letter):
 
 def isBoardFull(game):
     for i in range (1,10):
-        if game[i]==' ':
+        if game[i]=='#':
             return False
     return True
