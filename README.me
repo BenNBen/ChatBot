@@ -8,3 +8,24 @@ Purpose: Develop new tools and commands for further engagement with twitch, yout
 	Goals: dictionary, google, tic tac toe, etc..
 
 Status: Still in early development.
+
+Source Code Files:
+	Initialize.py: Joins the chosen chat room and prints out message to indicate the chat has been successfully joined
+	Run.py: Manages major portion of monitorization of the chat and deals with majority of bot/player interactions and the functions involved
+	Read.py: Contains 3 functions for interpretation of user messages
+		getUser: returns the name of the user who sent the message
+		getMessage: returns the message of the user
+		getTarget: returns the target of a message if a user has included another user in a command
+	Settings.py: contains bot information as well as the host and chosen channel for the bot to used in 
+	Socket.py: Has two major functions: openSocket() and sendMessage(s, Message)
+		openSocket(): 
+			used to connect with host and pass bot information to host 
+		sendMessage(): 
+			used to sendMessages to chat in order for communication to occur with members of the chat 
+	TicTacToe.py: used to allow for 2 users within chat to play a game of tic tac toe with each other in a chat room
+		startGame: main function of TicTacToe, controls the game
+		drawGame: used to draw the game board between steps
+		firstMove: determines who chooses a character first
+		checkMove: determines whether a chosen move is valid
+		checkWinner: determines whether or not a user has won the game yet
+		isBoardFull: determines whether or not all spaces on a board have been used; if so, the game is over 
