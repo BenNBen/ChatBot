@@ -9,11 +9,11 @@ def startGame(s,user): #s is the openSocket, user is the player calling for the 
     sendMessage(s,"Player 1 is " + user)
     sendMessage(s, user+", who do you challenge to a game?")
     target = " "
-    gameIsPlaying = False;
-    testLoop = True
+    gameIsPlaying = True;
+    #testLoop = True
     
     readbuffer = " "
-    while testLoop:
+    while gameIsPlaying:
         readbuffer = readbuffer + s.recv(1024)
         temp = string.split(readbuffer, "\n")
         readbuffer = temp.pop()
@@ -32,7 +32,6 @@ def startGame(s,user): #s is the openSocket, user is the player calling for the 
                 if('y' in message) or ('Y' in message):
                     userChar = ' '
                     targetChar = ' '
-                    gameIsPlaying = True
                     begin = firstMove()
                     sendMessage(s,user+", choose a character to use:")
                     if user == getUser(line):
@@ -41,53 +40,46 @@ def startGame(s,user): #s is the openSocket, user is the player calling for the 
                     if target == getUser(line) and userChar != getMessage(line):
                         targetChar = getMessage(line)
                     sendMessage(s, user+" chose "+userChar+", while "+target+" chose "+targetChar)
-                    if userChar != ' ' and targetChar != ' ':
-                        gameIsPlaying == True
-
-                    while gameIsPlaying == True:
-                        game = ['#'] *10
-                        drawGame(s,game)
-                        move = ' '
-                        if begin=='1':
-                            sendMessage(s,"Your move: "+user)
-                            if user==getUser(line):
-                                move = getMessage(line)
-                            if checkMove(move, game)==True:
+                    game = ['#'] *10
+                    drawGame(s,game)
+                    move = ' '
+                    if begin=='1':
+                        sendMessage(s,"Your move: "+user)
+                        if user==getUser(line):
+                            move = getMessage(line)
+                        if checkMove(move, game)==True:
                                 game[int(move)]=userChar
-                            if checkWinner(game,userChar):
-                                sendMessage(s,"Hooray! "+user+" has won the game!") 
-                                gameIsPlaying = False
-                            else:
-                                if isBoardFull(game):
-                                    sendMessage(s,"The game is a tie!")
-                                    gameIsPlaying = False
-                                else:
-                                    begin=='0'
+                        if checkWinner(game,userChar):
+                            sendMessage(s,"Hooray! "+user+" has won the game!") 
+                            gameIsPlaying = False
                         else:
-                            sendMessage(s,"Your move: "+target)
-                            if target==getUser(line):
-                                move = getMessage(line)
-                            if checkMove(move,game)==True:
-                                game[int(move)]=targetChar
-                            if checkWinner(game,targetChar):
-                                sendMessage(s, "Hooray! "+target+" has won the game!")
+                            if isBoardFull(game):
+                                sendMessage(s,"The game is a tie!")
                                 gameIsPlaying = False
                             else:
-                                if isBoardFull(game):
-                                    sendMessage(s, "The game is a tie!")
-                                    gameIsPlaying = False
-                                else:
-                                    begin=='1'
-    if(gameIsPlaying == False):
-        testLoop = False
-        return True
+                                begin=='0'
+                    else:
+                        sendMessage(s,"Your move: "+target)
+                        if target==getUser(line):
+                            move = getMessage(line)
+                        if checkMove(move,game)==True:
+                            game[int(move)]=targetChar
+                        if checkWinner(game,targetChar):
+                            sendMessage(s, "Hooray! "+target+" has won the game!")
+                            gameIsPlaying = False
+                        else:
+                            if isBoardFull(game):
+                                sendMessage(s, "The game is a tie!")
+                                gameIsPlaying = False
+                            else:
+                                begin=='1'
+    #if(gameIsPlaying == False):
+     #   return True
 
 def drawGame(s, game):
     #writes out the game to the chat
     sendMessage(s, ' '+game[7]+' | '+ game[8]+ ' | '+game[9])
-    sendMessage(s, '---------')
     sendMessage(s, ' '+game[4]+' | '+game[5]+' | '+game[6])
-    sendMessage(s, '---------')
     sendMessage(s, ' '+game[1]+' | '+game[2]+' | '+game[3])
 
 def firstMove():
