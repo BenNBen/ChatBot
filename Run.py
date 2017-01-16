@@ -1,6 +1,7 @@
 import string
+import os, sys
 from Read import getUser, getMessage, getTarget
-from Socket import openSocket, sendMessage
+from Socket import openSocket, sendMessage, CHANNEL
 from Initialize import joinRoom
 from TicTacToe import startGame
 
@@ -19,14 +20,17 @@ while True:
 				s.send(line.replace("PING", "PONG"))
 				break
 			user = getUser(line)
+                        if os.path.exists("Channels/"+CHANNEL+"/Users/"+user)==False:
+                                f = file("Channels/"+CHANNEL+"/Users/"+user+".txt","wr+")
+                                f.write("1")
 			message = getMessage(line)
                         print user + " typed :" + message
                         if ('@'in message):
                                         target = getTarget(line)
                                         print "target is " + target
-                        if("!tictactoe" in message):
-                                        startGame(s,user)
-                                        break
+                       # if("!tictactoe" in message):
+                       #                startGame(s,user)
+                       #               break
 
                         if ("megabot1195" in message) or ("Megabot1195" in message):
                                 sendMessage(s, "Now that's a name I've not heard in a long time. A long time.")
