@@ -15,8 +15,8 @@ def joinRoom(s):
 		for line in temp:
 			print(line)
 			Loading = loadingComplete(line)
-	sendMessage(s, "Successfully joined chat")
-        sendMessage(s, "Please make sure to comment in order to recieve a daily point.")
+	#sendMessage(s, "Successfully joined chat")
+        #sendMessage(s, "Please make sure to comment in order to recieve a daily point.")
         if os.path.isdir("Channels")==False:
                 os.mkdir("Channels",0777)
         if os.path.isdir("./Channels/"+CHANNEL)==False:

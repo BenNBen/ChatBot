@@ -4,6 +4,7 @@ from Read import getUser, getMessage, getTarget
 from Socket import openSocket, sendMessage, CHANNEL
 from Initialize import joinRoom
 from TicTacToe import startGame
+from User import getDate, getPoints
 import time
 
 s = openSocket()
@@ -23,10 +24,12 @@ while True:
 			user = getUser(line)
                         f = file("Channels/"+CHANNEL+"/Users/"+user+".txt","wr+")
                         if os.path.exists("Channels/"+CHANNEL+"/Users/"+user)==False:
-                                f.write(str(time.asctime(time.localtime(time.time()))))
-                                #f.write("Worked")
+                                f.write(str(time.asctime(time.localtime(time.time())))+"\n")
+                                f.write("1")
                         else:
-                                f.write("Worked Twice")
+                                currPoints = getPoints(user)
+                                f.write(int(currPoints)+1)
+                                print currPoints
                         message = getMessage(line)
                         print user + " typed :" + message
                         if ('@'in message):
